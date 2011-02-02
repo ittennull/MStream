@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MStream", "MStream\MStream.vcxproj", "{4A4733B1-D9D9-45B7-B6F1-7653606009F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_XAudio2", "test_XAudio2\test_XAudio2.vcxproj", "{E799C597-DBD0-45EC-AC4C-74C8E39D340F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2} = {4A4733B1-D9D9-45B7-B6F1-7653606009F2}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Debug|Win32.Build.0 = Debug|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Release|Any CPU.ActiveCfg = Release|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Release|Win32.ActiveCfg = Release|Win32
+		{4A4733B1-D9D9-45B7-B6F1-7653606009F2}.Release|Win32.Build.0 = Release|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Debug|Win32.Build.0 = Debug|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Release|Win32.ActiveCfg = Release|Win32
+		{E799C597-DBD0-45EC-AC4C-74C8E39D340F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
