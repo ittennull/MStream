@@ -39,13 +39,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>d:\dev\libvorbis-1.3.2\include\;D:\dev\curl-7.21.3\include;D:\dev\flac-1.2.1\include;$(IncludePath)</IncludePath>
-    <LibraryPath>d:\dev\libvorbis-1.3.2\win32\VS2010\Win32\Debug\;d:\dev\flac-1.2.1\obj\debug\lib\;d:\dev\curl-7.21.3\lib\DLL-Debug\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\curl-7.21.3\include;..\..\flac-1.2.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Debug\;..\..\flac-1.2.1\obj\debug\lib\;..\..\curl-7.21.3\lib\DLL-Debug\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>d:\dev\libvorbis-1.3.2\include\;D:\dev\curl-7.21.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>d:\dev\libvorbis-1.3.2\win32\VS2010\Win32\Release\;d:\dev\curl-7.21.3\lib\DLL-Release\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\flac-1.2.1\include;..\..\curl-7.21.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Release\;..\..\flac-1.2.1\obj\release\lib\;..\..\curl-7.21.3\lib\DLL-Release\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,7 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libvorbisfile.lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libvorbisfile.lib;libcurl_imp.lib;libFLAC_dynamic.lib;boost_date_time-vc100-mt-1_45.lib;boost_thread-vc100-mt-1_45.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
