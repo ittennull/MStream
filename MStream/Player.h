@@ -18,6 +18,8 @@ class Player : public IPlayer
 
 	CRITICAL_SECTION cs;
 
+	FILE* _currentFile;
+
 public:
 	Player(size_t downloaderBufferSizeKB);
 	~Player();

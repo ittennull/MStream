@@ -42,6 +42,7 @@ class Downloader
 
 	boost::thread _thread;
 	HANDLE _newDataEvent;
+	size_t _needDataSize;
 
 public:
 	Downloader(size_t bufferSize, boost::function<void()> onBufferingComplete);

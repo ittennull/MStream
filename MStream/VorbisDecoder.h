@@ -21,7 +21,7 @@ public:
 	VorbisDecoder();
 	virtual ~VorbisDecoder();
 
-	virtual bool openFile(const std::string& filename);
+	virtual bool openFile(FILE*& file);
 	virtual bool open(Downloader* downloader);
 	
 	virtual long getData(byte* buffer, size_t bufferSize);

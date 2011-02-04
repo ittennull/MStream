@@ -20,7 +20,8 @@ Downloader::Downloader(size_t bufferSize, boost::function<void()> onBufferingCom
 		_isDownloading(false),
 		_downloadSpeed(0.0),
 		_isBuffering(false),
-		_bufferedBytesCount(0)
+		_bufferedBytesCount(0),
+		_needDataSize((size_t)-1)
 {
 	_newDataEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -75,9 +76,15 @@ size_t Downloader::getData( byte* buffer, size_t bufferSize )
 
 		bool hasAllData = availableBytesCount >= bufferSize;
 		if(hasAllData)
+		{
+			_needDataSize = (size_t)-1;
 			break;
+		}
 		else
+		{
+			_needDataSize = bufferSize;
 			WaitForSingleObject(_newDataEvent, INFINITE);
+		}
 	}
 
 	if(!isDownloading())
@@ -120,7 +127,8 @@ size_t Downloader::writeMemoryCallback( void* ptr, size_t size, size_t nmemb )
 
 	getInfo();
 
-	SetEvent(_newDataEvent);
+	if(_downloaderBuffer.size() >= _needDataSize)
+		SetEvent(_newDataEvent);
 
 	return realSize;
 }

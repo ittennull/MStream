@@ -22,20 +22,15 @@ VorbisDecoder::~VorbisDecoder()
 	close();
 }
 
-bool VorbisDecoder::openFile( const std::string& filename )
+bool VorbisDecoder::openFile( FILE*& file )
 {
-	_file = fopen(filename.c_str(), "rb");
-	if(_file == 0)
-	{
-		printf("VorbisDecoder: Can't open file \"%s\"", filename.c_str());
-		return false;
-	}
+	_file = file;
 
-	if(ov_open_callbacks(_file, &_vf, NULL, 0, OV_CALLBACKS_DEFAULT))
+	if(ov_open_callbacks(_file, &_vf, NULL, 0, OV_CALLBACKS_NOCLOSE))
 	{
 		_file = 0;
 
-		printf("VorbisDecoder: Failed to open file %s\n", filename.c_str());
+		printf("VorbisDecoder: ov_open_callbacks failed\n");
 		return false;
 	}
 

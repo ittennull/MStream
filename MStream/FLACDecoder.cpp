@@ -43,7 +43,7 @@ FLACDecoder::~FLACDecoder()
 	close();
 }
 
-bool FLACDecoder::openFile( const std::string& filename )
+bool FLACDecoder::openFile( FILE*& file )
 {
 	_streamDecoder = FLAC__stream_decoder_new();
 	if(_streamDecoder == 0)
@@ -52,19 +52,14 @@ bool FLACDecoder::openFile( const std::string& filename )
 		return false;
 	}
 
-	_file = fopen(filename.c_str(), "rb");
-	if(_file == 0)
-	{
-		printf("FLACDecoder: Can't open file \"%s\"", filename.c_str());
-		return false;
-	}
-
-	FLAC__StreamDecoderInitStatus status = FLAC__stream_decoder_init_FILE(_streamDecoder, _file, 	
+	_file = &file;
+	
+	FLAC__StreamDecoderInitStatus status = FLAC__stream_decoder_init_FILE(_streamDecoder, *_file, 	
 		g_write_callback, g_metadata_callback, g_error_callback, this);
 	if(status != FLAC__STREAM_DECODER_INIT_STATUS_OK)
 	{
 		close();
-		printf("FLAC__stream_decoder_init_FILE: Failed to open file \"%s\"", filename.c_str());
+		printf("FLAC__stream_decoder_init_FILE failed\n");
 		return false;
 	}
 
@@ -72,7 +67,7 @@ bool FLACDecoder::openFile( const std::string& filename )
 	if(!res)
 	{
 		close();
-		printf("FLAC__stream_decoder_process_until_end_of_metadata failed with file \"%s\"", filename.c_str());
+		printf("FLAC__stream_decoder_process_until_end_of_metadata failed\n");
 		return false;
 	}
 
@@ -119,7 +114,12 @@ void FLACDecoder::close()
 		_streamDecoder = 0;
 	}
 
-	_file = 0; //FLAC__stream_decoder_finish have closed file already
+	if(_file != 0)
+	{
+		*_file = 0; //FLAC__stream_decoder_finish have closed file already but we must notify Player about that
+		_file = 0;
+	}
+
 	_downloader = 0;
 	_data.clear();
 }

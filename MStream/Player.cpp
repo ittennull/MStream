@@ -16,7 +16,8 @@ Player::Player(size_t downloaderBufferSizeKB)
 	:	_downloaderBufferSize(std::max((size_t)1, downloaderBufferSizeKB) * 1024),
 		_decoder(0),
 		_downloader(0),
-		_playerState(Stopped)
+		_playerState(Stopped),
+		_currentFile(0)
 {
 	InitializeCriticalSection(&cs);
 }
@@ -61,8 +62,10 @@ void Player::play( const char* uri )
 	else
 	{
 		printf("Bad uri \"%s\"\n", uriString.c_str());
+		return;
 	}
 
+	printf("Opening %s\n", uri);
 	
 	if(isNetStream)
 	{
@@ -74,8 +77,18 @@ void Player::play( const char* uri )
 	}
 	else
 	{
-		if(_decoder->openFile(uri))
+		_currentFile = fopen(uri, "rb");
+		if(_currentFile == 0)
+		{
+			printf("Player: Can't open file \"%s\"", uri);
+			stop();
+			return;
+		}
+		
+		if(_decoder->openFile(_currentFile))
 			_playerState = Playing;
+		else
+			stop();
 	}
 }
 
@@ -85,32 +98,44 @@ void Player::onBufferingComplete()
 		[this]
 		{
 			bool ok = _decoder->open(_downloader);
-
-			ScopedCS lock(cs);
-			_playerState = ok ? Playing : Stopped;
+			if(ok)
+			{
+				ScopedCS lock(cs);
+				_playerState = Playing;
+			}
+			else
+			{
+				_openThread.detach();
+				stop();
+			}
 		}
 	);
 }
 
 void Player::stop()
 {
-	_playerState = Stopped;
+	{
+		ScopedCS lock(cs);
+		_playerState = Stopped;
+	}
 
 	if(_downloader != 0)
 	{
 		_downloader->stop();
 	}
 
+	_openThread.join();
+
 	if(_decoder != 0)
 	{
-		if(_openThread.joinable())
-		{
-			_openThread.interrupt();
-			_openThread.join();
-		}
-
 		delete _decoder;
 		_decoder = 0;
+	}
+
+	if(_currentFile != 0)
+	{
+		fclose(_currentFile);
+		_currentFile = 0;
 	}
 }
 
