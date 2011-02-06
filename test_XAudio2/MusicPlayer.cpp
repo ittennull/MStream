@@ -127,29 +127,27 @@ void MusicPlayer::threadProc(const char* uri)
 		state.playerState = Opening;
 	}
 
-	_player->play(uri);
+	HANDLE hBufferEndEvent = static_cast<StreamingVoiceContext*>(_voiceCallback)->hBufferEndEvent;
+	ResetEvent(hBufferEndEvent);
 
-	for( ; _player->getState() == IPlayer::Opening; )
+	_player->play(uri, boost::bind<BOOL>(SetEvent, hBufferEndEvent));
+	WaitForSingleObject(hBufferEndEvent, INFINITE);
+
 	{
+		ScopedCS lock(csControl);
+		if(_requestStop)
 		{
-			ScopedCS lock(csControl);
-			if(_requestStop)
-			{
-				stopAndCleanup();
-				return;
-			}
+			stopAndCleanup();
+			return;
 		}
-
-		//printf("Opening... %d\n", _player->getBufferingPercentComplete());
-		Sleep(100);
 	}
-
 	if(_player->getState() == IPlayer::Stopped)
 	{
 		printf("Failed to open %s\n", uri);
 		stopAndCleanup();
 		return;
 	}
+
 
 	{
 		ScopedCS lock(csState);
@@ -211,7 +209,7 @@ void MusicPlayer::threadProc(const char* uri)
 		_sourceVoice->GetState(&voiseState);
 		for(; playerState == IPlayer::Stopped || voiseState.BuffersQueued >= buffersCount; _sourceVoice->GetState(&voiseState))
 		{
-			WaitForSingleObject(static_cast<StreamingVoiceContext*>(_voiceCallback)->hBufferEndEvent, INFINITE);
+			WaitForSingleObject(hBufferEndEvent, INFINITE);
 
 			{
 				ScopedCS lock(csControl);

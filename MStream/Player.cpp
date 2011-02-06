@@ -33,9 +33,11 @@ Player::~Player()
 }
 
 
-void Player::play( const char* uri )
+void Player::play( const char* uri, boost::function<void()> onOpened )
 {
 	stop();
+
+	this->onOpened = onOpened;
 	
 	std::string uriString = uri;
 	bool isNetStream = (uriString.compare(0, 4, "http") == 0);
@@ -90,6 +92,9 @@ void Player::play( const char* uri )
 			_playerState = Playing;
 		else
 			stop();
+
+		if(onOpened)
+			onOpened();
 	}
 }
 
@@ -109,6 +114,9 @@ void Player::onBufferingComplete()
 				_openThread.detach();
 				stop();
 			}
+
+			if(onOpened)
+				onOpened();
 		}
 	);
 }
@@ -140,6 +148,8 @@ void Player::stop()
 		fclose(_currentFile);
 		_currentFile = 0;
 	}
+
+	onOpened.clear();
 }
 
 size_t Player::getData( byte* buffer, size_t bufferSize )

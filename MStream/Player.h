@@ -20,11 +20,13 @@ class Player : public IPlayer
 
 	FILE* _currentFile;
 
+	boost::function<void()> onOpened;
+
 public:
 	Player(size_t downloaderBufferSizeKB);
 	~Player();
 
-	virtual void play(const char* uri);
+	virtual void play(const char* uri, boost::function<void()> onOpened);
 	virtual void stop();
 	virtual size_t getData(byte* buffer, size_t bufferSize);
 
@@ -43,4 +45,3 @@ private:
 };
 
 #endif
-
