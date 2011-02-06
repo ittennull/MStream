@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "VorbisDecoder.h"
 #include "FlacDecoder.h"
+#include "Mp3Decoder.h"
 #include <boost/bind.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
@@ -55,9 +56,9 @@ void Player::play( const char* uri )
 	{
 		_decoder = new FLACDecoder();
 	}
-	else if(ext == "mp3" || (isNetStream && ext.empty()))
+	else if(ext == "mp3" || isNetStream)
 	{
-		//_decoder = new MP3Decoder();
+		_decoder = new Mp3Decoder();
 	}
 	else
 	{
@@ -116,6 +117,8 @@ void Player::stop()
 {
 	{
 		ScopedCS lock(cs);
+		if(_playerState == Stopped)
+			return;
 		_playerState = Stopped;
 	}
 

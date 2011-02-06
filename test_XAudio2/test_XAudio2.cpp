@@ -86,10 +86,13 @@ int run(int argc, _TCHAR* argv[])
 	Audio::IMusicPlayer* player = new Audio::MusicPlayer(pXAudio2);
 
 	std::vector<std::string> playlist;
-	playlist.push_back("http://acrobs.net:8000/acrobs.ogg");
+	playlist.push_back("http://animeradio.su:8000/");
+	playlist.push_back("http://82.199.118.10:8000/radionami");
+	playlist.push_back("1.mp3");
+	playlist.push_back("2.flac");
 	playlist.push_back("http://radio.cesnet.cz:8000/cro-d-dur.flac");
-	playlist.push_back("1b.flac");
 	playlist.push_back("http://acrobs.net:8000/acrobs.ogg");
+	
 	playlist.push_back("1.ogg");
 	
 	//playlist.push_back("d:\\Docs\\music\\collapse_music\\04 NewTone - Run!!!!.ogg");

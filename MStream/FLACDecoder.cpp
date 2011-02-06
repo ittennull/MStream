@@ -14,20 +14,10 @@ void g_error_callback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErr
 {
 	static_cast<FLACDecoder*>(client_data)->error_callback(decoder, status);
 }
-//FLAC__StreamDecoderReadStatus g_read_callback(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
-//{
-//	if(*bytes > 0) 
-//	{
-//		Downloader* downloader = static_cast<Downloader*>(client_data);
-//		*bytes = downloader->getData((byte*)buffer, *bytes);
-//		if(*bytes == 0)
-//			return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
-//		else
-//			return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
-//	}
-//	else
-//		return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
-//}
+FLAC__StreamDecoderReadStatus g_read_callback(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
+{
+	return static_cast<FLACDecoder*>(client_data)->read_callback(decoder, buffer, bytes);
+}
 
 
 FLACDecoder::FLACDecoder()
@@ -51,6 +41,8 @@ bool FLACDecoder::openFile( FILE*& file )
 		printf("FLAC__stream_decoder_new failed\n");
 		return false;
 	}
+
+	FLAC__stream_decoder_set_metadata_respond(_streamDecoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
 
 	_file = &file;
 	
@@ -85,12 +77,14 @@ bool FLACDecoder::open( Downloader* downloader )
 		return false;
 	}
 
-	FLAC__StreamDecoderInitStatus status = FLAC__stream_decoder_init_stream(_streamDecoder, 
-		g_read_callback, NULL, NULL, NULL, NULL, g_write_callback, g_metadata_callback, g_error_callback, downloader);
+	_downloader = downloader;
+
+	FLAC__StreamDecoderInitStatus status = FLAC__stream_decoder_init_ogg_stream(_streamDecoder, 
+		g_read_callback, NULL, NULL, NULL, NULL, g_write_callback, g_metadata_callback, g_error_callback, this);
 	if(status != FLAC__STREAM_DECODER_INIT_STATUS_OK)
 	{
 		close();
-		printf("FLAC__stream_decoder_init_stream failed");
+		printf("FLAC__stream_decoder_init_ogg_stream failed");
 		return false;
 	}
 
@@ -176,7 +170,7 @@ int FLACDecoder::getInstantBitRate()
 
 void FLACDecoder::getComments( std::vector<std::string>& out )
 {
-
+	out = comments;
 }
 
 FLAC__StreamDecoderWriteStatus FLACDecoder::write_callback( const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[] )
@@ -220,9 +214,32 @@ void FLACDecoder::metadata_callback( const FLAC__StreamDecoder *decoder, const F
 		_numberOfBitsPerSample = metadata->data.stream_info.bits_per_sample;
 		_numberOfSamplesPerSecond = metadata->data.stream_info.sample_rate;
 	}
+	else if(metadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT)
+	{
+		comments.clear();
+		for(unsigned int i=0; i<metadata->data.vorbis_comment.num_comments; i++)
+		{
+			std::string s((char*)metadata->data.vorbis_comment.comments[i].entry, metadata->data.vorbis_comment.comments[i].length);
+			comments.push_back(s);
+		}
+	}
 }
 
 void FLACDecoder::error_callback( const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status )
 {
 	printf("FLACDecoder error: %d - %s\n", status, FLAC__StreamDecoderErrorStatusString[status]);
+}
+
+FLAC__StreamDecoderReadStatus FLACDecoder::read_callback( const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes )
+{
+	if(*bytes > 0) 
+	{
+		*bytes = _downloader->getData((byte*)buffer, *bytes);
+		if(*bytes == 0)
+			return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
+		else
+			return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
+	}
+	else
+		return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
 }

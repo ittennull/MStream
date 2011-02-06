@@ -52,18 +52,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\curl-7.21.3\include;..\..\flac-1.2.1\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Debug\;..\..\flac-1.2.1\obj\debug\lib\;..\..\curl-7.21.3\lib\DLL-Debug\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\curl-7.21.3\include;..\..\flac-1.2.1\include;..\..\mpg123\ports\MSVC++;..\..\mpg123\src\libmpg123\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Debug\;..\..\flac-1.2.1\obj\debug\lib\;..\..\curl-7.21.3\lib\DLL-Debug\;..\..\mpg123\ports\MSVC++\2008\Debug\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\flac-1.2.1\include;..\..\curl-7.21.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Release\;..\..\flac-1.2.1\obj\release\lib\;..\..\curl-7.21.3\lib\DLL-Release\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\curl-7.21.3\include;..\..\flac-1.2.1\include;..\..\mpg123\ports\MSVC++;..\..\mpg123\src\libmpg123\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libvorbis-1.3.2\win32\VS2010\Win32\Release\;..\..\flac-1.2.1\obj\release\lib\;..\..\curl-7.21.3\lib\DLL-Release\;..\..\mpg123\ports\MSVC++\2008\Release\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_static|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\flac-1.2.1\include;..\..\curl-7.21.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\libogg-1.2.2\win32\VS2010\Win32\Release\;..\..\libvorbis-1.3.2\win32\VS2010\Win32\Release\;..\..\flac-1.2.1\obj\release\lib\;..\..\curl-7.21.3\lib\LIB-Release\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\libogg-1.2.2\include;..\..\libvorbis-1.3.2\include\;..\..\curl-7.21.3\include;..\..\flac-1.2.1\include;..\..\mpg123\ports\MSVC++;..\..\mpg123\src\libmpg123\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libogg-1.2.2\win32\VS2010\Win32\Release\;..\..\libvorbis-1.3.2\win32\VS2010\Win32\Release\;..\..\flac-1.2.1\obj\release\lib\;..\..\curl-7.21.3\lib\LIB-Release\;..\..\mpg123\ports\MSVC++\2008\Release\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -75,7 +75,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libvorbisfile.lib;libFLAC_dynamic.lib;libcurld_imp.lib;boost_date_time-vc100-mt-gd-1_45.lib;boost_thread-vc100-mt-gd-1_45.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libvorbisfile.lib;libFLAC_dynamic.lib;libcurld_imp.lib;boost_date_time-vc100-mt-gd-1_45.lib;boost_thread-vc100-mt-gd-1_45.lib;libmpg123.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,7 +92,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libvorbisfile.lib;libcurl_imp.lib;libFLAC_dynamic.lib;boost_date_time-vc100-mt-1_45.lib;boost_thread-vc100-mt-1_45.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libvorbisfile.lib;libcurl_imp.lib;libFLAC_dynamic.lib;boost_date_time-vc100-mt-1_45.lib;boost_thread-vc100-mt-1_45.lib;libmpg123.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_static|Win32'">
@@ -106,10 +106,10 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;libcurl.lib;libFLAC_static.lib;boost_date_time-vc100-mt-1_45.lib;boost_thread-vc100-mt-1_45.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;libmpg123_static.lib;libcurl.lib;libFLAC_static.lib;boost_date_time-vc100-mt-1_45.lib;boost_thread-vc100-mt-1_45.lib;wldap32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -118,6 +118,7 @@
     <ClInclude Include="FLACDecoder.h" />
     <ClInclude Include="IDecoder.h" />
     <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="Mp3Decoder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="VorbisDecoder.h" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Downloader.cpp" />
     <ClCompile Include="FLACDecoder.cpp" />
+    <ClCompile Include="Mp3Decoder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="VorbisDecoder.cpp" />
   </ItemGroup>

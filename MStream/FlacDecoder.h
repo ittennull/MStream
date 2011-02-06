@@ -24,6 +24,7 @@ class FLACDecoder : public IDecoder
 
 	Downloader* _downloader;
 
+	std::vector<std::string> comments;
 
 public:
 	FLACDecoder();
@@ -45,6 +46,7 @@ public:
 	FLAC__StreamDecoderWriteStatus write_callback(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 *const buffer[]);
 	void metadata_callback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata);
 	void error_callback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status);
+	FLAC__StreamDecoderReadStatus read_callback(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes);
 
 private:
 	void close();

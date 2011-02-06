@@ -31,6 +31,9 @@
     <ClInclude Include="FLACDecoder.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mp3Decoder.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VorbisDecoder.cpp">
@@ -43,6 +46,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FLACDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mp3Decoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,12 +6,6 @@
 #include <boost/bind.hpp>
 
 
-
-//size_t header_function( void *ptr, size_t size, size_t nmemb, void *userdata)
-//{
-//	return size * nmemb;
-//}
-
 bool Downloader::_requestExit = false;
 
 Downloader::Downloader(size_t bufferSize, boost::function<void()> onBufferingComplete)
