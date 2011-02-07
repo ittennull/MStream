@@ -42,6 +42,7 @@ public:
 
 private:
 	void onBufferingComplete();
+	void openStream();
 };
 
 #endif

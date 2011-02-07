@@ -107,6 +107,19 @@ int run(int argc, _TCHAR* argv[])
 	Audio::IMusicPlayer::State state;
 	std::vector<std::string> comments;
 
+	float volume = 1.0f;
+	player->setVolume(volume);
+
+	auto playN = [=] (size_t n)
+	{
+		if(n < playlist.size())
+		{
+			printf("\n---%d---\n", n);
+			player->play(playlist[n].c_str());
+			player->setVolume(volume);
+		}
+	};
+
 
 	for(size_t i=0; ; ++i)
 	{
@@ -117,37 +130,26 @@ int run(int argc, _TCHAR* argv[])
 
 		if( GetAsyncKeyState( VK_NUMPAD0 ) )
 		{
-			printf("\n---0---\n");
 			player->stop();
+			printf("Stopped");
 		}
 
-		if( GetAsyncKeyState( VK_NUMPAD1 ) )
-		{
-			printf("\n---1---\n");
-			player->play(playlist[0].c_str());
-		}
-		if( GetAsyncKeyState( VK_NUMPAD2 ) )
-		{
-			printf("\n---2---\n");
-			player->play(playlist[1].c_str());
-		}
-		if( GetAsyncKeyState( VK_NUMPAD3 ) )
-		{
-			printf("\n---3---\n");
-			player->play(playlist[2].c_str());
-		}
-
+		if( GetAsyncKeyState( VK_NUMPAD1 ) ) playN(0);
+		if( GetAsyncKeyState( VK_NUMPAD2 ) ) playN(1);
+		if( GetAsyncKeyState( VK_NUMPAD3 ) ) playN(2);
+		if( GetAsyncKeyState( VK_NUMPAD4 ) ) playN(3);
+		if( GetAsyncKeyState( VK_NUMPAD5 ) ) playN(4);
+		if( GetAsyncKeyState( VK_NUMPAD6 ) ) playN(5);
+		
 		if( GetAsyncKeyState( VK_ADD ) )
 		{
-			float f = player->getVolume();
-			f = min(1, f+0.1f);
-			player->setVolume(f);
+			volume = min(1, volume+0.1f);
+			player->setVolume(volume);
 		}
 		if( GetAsyncKeyState( VK_SUBTRACT ) )
 		{
-			float f = player->getVolume();
-			f = max(0, f-0.1f);
-			player->setVolume(f);
+			volume = max(0, volume-0.1f);
+			player->setVolume(volume);
 		}
 
 		player->getState(state);

@@ -1,7 +1,6 @@
 #ifndef IPLAYER_H
 #define IPLAYER_H
 
-#include "base.h"
 #include <string>
 #include <vector>
 #include <boost/function.hpp>
@@ -20,9 +19,9 @@ public:
 public:
 	virtual ~IPlayer() {}
 
-	virtual void play(const char* uri, boost::function<void()> onFinish) = 0;
+	virtual void play(const char* uri, boost::function<void()> onOpened) = 0;
 	virtual void stop() = 0;
-	virtual size_t getData(byte* buffer, size_t bufferSize) = 0;
+	virtual size_t getData(unsigned char* buffer, size_t bufferSize) = 0;
 
 	virtual PlayerState getState() = 0;
 	virtual int getBufferingPercentComplete() = 0;

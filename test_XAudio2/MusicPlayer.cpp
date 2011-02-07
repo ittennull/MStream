@@ -33,7 +33,7 @@ struct StreamingVoiceContext : public IXAudio2VoiceCallback
 };
 
 
-MusicPlayer::MusicPlayer(IXAudio2* pXAudio2)
+MusicPlayer::MusicPlayer(IXAudio2* pXAudio2, size_t downloaderBufferSizeKB)
 	:	_XAudio2(pXAudio2),
 		_player(0),
 		_requestStop(false),
@@ -49,7 +49,7 @@ MusicPlayer::MusicPlayer(IXAudio2* pXAudio2)
 	}
 
 	createPlayer_t createPlayer = (createPlayer_t)GetProcAddress(_hmodule, "createPlayer");
-	_player = createPlayer(5);
+	_player = createPlayer(downloaderBufferSizeKB);
 
 	const int buffersCount = sizeof(_buffers) / sizeof(XAUDIO2_BUFFER);
 	for(int i=0; i<buffersCount; i++)

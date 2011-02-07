@@ -12,6 +12,8 @@ IPlayer* createPlayer(size_t downloaderBufferSizeKB)
 	return r;
 }
 
+void noop_printf(const char*, ...) {}
+
 
 Player::Player(size_t downloaderBufferSizeKB)
 	:	_downloaderBufferSize(std::max((size_t)1, downloaderBufferSizeKB) * 1024),
@@ -68,7 +70,7 @@ void Player::play( const char* uri, boost::function<void()> onOpened )
 		return;
 	}
 
-	printf("Opening %s\n", uri);
+	dprintf("Opening %s\n", uri);
 	
 	if(isNetStream)
 	{
@@ -83,7 +85,7 @@ void Player::play( const char* uri, boost::function<void()> onOpened )
 		_currentFile = fopen(uri, "rb");
 		if(_currentFile == 0)
 		{
-			printf("Player: Can't open file \"%s\"", uri);
+			printf("Player: Can't open file \"%s\"\n", uri);
 			stop();
 			return;
 		}
@@ -100,25 +102,25 @@ void Player::play( const char* uri, boost::function<void()> onOpened )
 
 void Player::onBufferingComplete()
 {
-	_openThread = boost::thread( 
-		[this]
-		{
-			bool ok = _decoder->open(_downloader);
-			if(ok)
-			{
-				ScopedCS lock(cs);
-				_playerState = Playing;
-			}
-			else
-			{
-				_openThread.detach();
-				stop();
-			}
+	_openThread = boost::thread( boost::bind(&Player::openStream, this) );
+}
 
-			if(onOpened)
-				onOpened();
-		}
-	);
+void Player::openStream()
+{
+	bool ok = _decoder->open(_downloader);
+	if(ok)
+	{
+		ScopedCS lock(cs);
+		_playerState = Playing;
+	}
+	else
+	{
+		_openThread.detach();
+		stop();
+	}
+
+	if(onOpened)
+		onOpened();
 }
 
 void Player::stop()

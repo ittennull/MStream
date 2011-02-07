@@ -35,7 +35,7 @@ class MusicPlayer : public IMusicPlayer
 	State state;
 	
 public:
-	MusicPlayer(IXAudio2* pXAudio2);
+	MusicPlayer(IXAudio2* pXAudio2, size_t downloaderBufferSizeKB=5);
 	~MusicPlayer();
 
 	virtual void play(const char* uri);

@@ -135,8 +135,8 @@ void Downloader::download( const char* url )
 	_isBuffering = true;
 	_bufferedBytesCount = 0;
 	
-	//_thread = boost::thread(boost::bind(&Downloader::download, this));
-	_thread = boost::thread( [this]{download();} );
+	_thread = boost::thread(boost::bind(&Downloader::download, this));
+	//_thread = boost::thread( [this]{download();} );
 }
 
 void Downloader::download()

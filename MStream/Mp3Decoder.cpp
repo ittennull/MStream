@@ -107,7 +107,7 @@ bool Mp3Decoder::afterOpen()
 	_numberOfSamplesPerSecond = numberOfSamplesPerSecond;
 	_numberOfBitsPerSample = 16;
 
-	printf("\nsample rate: %d\n", _numberOfSamplesPerSecond);
+	dprintf("\nsample rate: %d\n", _numberOfSamplesPerSecond);
 
 	return true;
 }

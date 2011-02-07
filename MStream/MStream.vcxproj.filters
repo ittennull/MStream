@@ -10,9 +10,6 @@
     <ClInclude Include="base.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="IDecoder.h">
       <Filter>Source Files</Filter>
     </ClInclude>
