@@ -144,7 +144,7 @@ void Downloader::download()
 	CURLcode code = curl_easy_perform(_curl_handle);
 	_isDownloading = false;
 
-	printf("curl_easy_perform finished with %d - %s\n", code, getError());
+	dprintf("\ncurl_easy_perform finished with %d - %s\n", code, ((code != CURLE_OK) ?getError() :""));
 }
 
 void Downloader::stop()

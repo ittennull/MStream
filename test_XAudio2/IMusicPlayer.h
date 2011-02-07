@@ -2,6 +2,9 @@
 #include <vector>
 #include <string>
 
+
+struct IXAudio2SourceVoice;
+
 namespace Audio
 {
 
@@ -33,6 +36,8 @@ public:
 
 	virtual int getBufferingPercentComplete() = 0;
 	virtual void getState(State& state) = 0;
+
+	virtual IXAudio2SourceVoice* getSourceVoice() = 0;
 };
 
 }

@@ -108,8 +108,6 @@ int run(int argc, _TCHAR* argv[])
 	Audio::IMusicPlayer::State state;
 	std::vector<std::string> comments;
 
-	float volume = 1.0f;
-	player->setVolume(volume);
 
 	auto playN = [=] (size_t n)
 	{
@@ -117,7 +115,6 @@ int run(int argc, _TCHAR* argv[])
 		{
 			printf("\n---%d---\n", n);
 			player->play(playlist[n].c_str());
-			player->setVolume(volume);
 		}
 	};
 
@@ -144,11 +141,13 @@ int run(int argc, _TCHAR* argv[])
 		
 		if( GetAsyncKeyState( VK_ADD ) )
 		{
+			float volume = player->getVolume();
 			volume = min(1, volume+0.1f);
 			player->setVolume(volume);
 		}
 		if( GetAsyncKeyState( VK_SUBTRACT ) )
 		{
+			float volume = player->getVolume();
 			volume = max(0, volume-0.1f);
 			player->setVolume(volume);
 		}

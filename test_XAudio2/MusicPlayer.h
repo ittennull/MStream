@@ -31,6 +31,7 @@ class MusicPlayer : public IMusicPlayer
 	CRITICAL_SECTION csState;
 	CRITICAL_SECTION csControl;
 	const size_t _bufferSize;
+	float _volume;
 
 	State state;
 	
@@ -46,6 +47,8 @@ public:
 
 	virtual int getBufferingPercentComplete();
 	virtual void getState(State& state);
+
+	virtual IXAudio2SourceVoice* getSourceVoice();
 
 private:
 	void threadProc(const char* uri);

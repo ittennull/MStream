@@ -38,11 +38,12 @@ MusicPlayer::MusicPlayer(IXAudio2* pXAudio2, size_t downloaderBufferSizeKB)
 		_player(0),
 		_requestStop(false),
 		_bufferSize(128*1024),
-		_sourceVoice(0)
+		_sourceVoice(0),
+		_volume(1.0f)
 {
 	_voiceCallback = new StreamingVoiceContext;
 
-	_hmodule = LoadLibrary(L"MStream.dll");
+	_hmodule = LoadLibraryA("MStream.dll");
 	if(_hmodule == NULL)
 	{
 		printf("Failed to open MStream.dll\n");
@@ -106,16 +107,12 @@ void MusicPlayer::stop()
 
 float MusicPlayer::getVolume()
 {
-	if(_sourceVoice == 0)
-		return 0.0f;
-
-	float volume;
-	_sourceVoice->GetVolume(&volume);
-	return volume;
+	return _volume;
 }
 
 void MusicPlayer::setVolume( float volume )
 {
+	_volume = volume;
 	if(_sourceVoice)
 		_sourceVoice->SetVolume(volume);
 }
@@ -170,6 +167,8 @@ void MusicPlayer::threadProc(const char* uri)
 		stopAndCleanup();
 		return;
 	}
+
+	setVolume(_volume);
 
 	const int buffersCount = sizeof(_buffers) / sizeof(XAUDIO2_BUFFER);
 	for(int i=0; i<buffersCount; i++)
@@ -288,6 +287,11 @@ void MusicPlayer::getState( State& state )
 int MusicPlayer::getBufferingPercentComplete()
 {
 	return _player->getBufferingPercentComplete();
+}
+
+IXAudio2SourceVoice* MusicPlayer::getSourceVoice()
+{
+	return _sourceVoice;
 }
 
 }
