@@ -70,7 +70,7 @@ void Player::play( const char* uri, boost::function<void()> onOpened )
 		return;
 	}
 
-	dprintf("Opening %s\n", uri);
+	dprintf("\n>>>Opening %s\n", uri);
 	
 	if(isNetStream)
 	{
@@ -85,7 +85,7 @@ void Player::play( const char* uri, boost::function<void()> onOpened )
 		_currentFile = fopen(uri, "rb");
 		if(_currentFile == 0)
 		{
-			printf("Player: Can't open file \"%s\"\n", uri);
+			printf("\nPlayer: Can't open file \"%s\"\n", uri);
 			stop();
 			return;
 		}
@@ -131,6 +131,8 @@ void Player::stop()
 			return;
 		_playerState = Stopped;
 	}
+
+	dprintf("\n<<<Stopped\n");
 
 	if(_downloader != 0)
 	{

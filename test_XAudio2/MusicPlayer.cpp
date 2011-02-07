@@ -235,10 +235,14 @@ void MusicPlayer::threadProc(const char* uri)
 		if(needexit)
 			break;
 
-		
+
 		readBuffer(_player, _buffers[current_buffer]);
-		_sourceVoice->SubmitSourceBuffer(&_buffers[current_buffer]);
-		current_buffer = (current_buffer + 1) % buffersCount;
+
+		if(_buffers[current_buffer].AudioBytes > 0)
+		{
+			_sourceVoice->SubmitSourceBuffer(&_buffers[current_buffer]);
+			current_buffer = (current_buffer + 1) % buffersCount;
+		}
 	}
 
 	//Cleanup

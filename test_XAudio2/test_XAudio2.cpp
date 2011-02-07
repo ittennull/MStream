@@ -86,6 +86,7 @@ int run(int argc, _TCHAR* argv[])
 	Audio::IMusicPlayer* player = new Audio::MusicPlayer(pXAudio2);
 
 	std::vector<std::string> playlist;
+	//playlist.push_back("http://192.168.1.128:8000/example1.ogg");
 	playlist.push_back("http://animeradio.su:8000/");
 	playlist.push_back("http://82.199.118.10:8000/radionami");
 	playlist.push_back("1.mp3");
@@ -99,7 +100,7 @@ int run(int argc, _TCHAR* argv[])
 	playlist.push_back("http://rainwave.cc:8000/rainwave.ogg");
 
 	//player->play("c:\\Users\\Dima\\Documents\\collapse_music\\04 NewTone - Run!!!!.ogg");
-	//player->play("http://192.168.1.128:8000/example1.ogg");
+	
 	//player->play("d:\\Docs\\music\\collapse_music\\04 NewTone - Run!!!!.ogg");
 
 	player->play(playlist[0].c_str());
