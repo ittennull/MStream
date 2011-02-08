@@ -264,6 +264,7 @@ void MusicPlayer::stopAndCleanup()
 {
 	if(_sourceVoice != 0)
 	{
+		ScopedCS lock(csState);
 		_sourceVoice->DestroyVoice();
 		_sourceVoice = 0;
 	}
@@ -289,9 +290,10 @@ int MusicPlayer::getBufferingPercentComplete()
 	return _player->getBufferingPercentComplete();
 }
 
-IXAudio2SourceVoice* MusicPlayer::getSourceVoice()
+boost::shared_ptr<IXAudio2SourceVoice> MusicPlayer::getSourceVoice()
 {
-	return _sourceVoice;
+	EnterCriticalSection(&csState);
+	return boost::shared_ptr<IXAudio2SourceVoice>(_sourceVoice, boost::bind<void>(LeaveCriticalSection, &csState));
 }
 
 }

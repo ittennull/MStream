@@ -48,7 +48,7 @@ public:
 	virtual int getBufferingPercentComplete();
 	virtual void getState(State& state);
 
-	virtual IXAudio2SourceVoice* getSourceVoice();
+	virtual boost::shared_ptr<IXAudio2SourceVoice> getSourceVoice();
 
 private:
 	void threadProc(const char* uri);
